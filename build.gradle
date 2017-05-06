@@ -1,4 +1,4 @@
-group 'com.nomensvyat'
+group 'com.github.nomensvyat'
 version '0.1.0'
 
 apply plugin: 'groovy'
@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile 'org.codehaus.groovy:groovy-all:2.4.7'
     compile gradleApi()
     compile localGroovy()
     compile 'com.android.tools.build:gradle:2.3.0'

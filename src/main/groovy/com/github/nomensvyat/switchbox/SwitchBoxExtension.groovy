@@ -4,5 +4,5 @@ class SwitchBoxExtension {
     /**
      * Path to switch box json file
      * */
-    def String switchBoxFile = ""
+    String filePath = ""
 }

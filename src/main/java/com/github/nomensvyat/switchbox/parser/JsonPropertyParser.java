@@ -2,9 +2,7 @@ package com.github.nomensvyat.switchbox.parser;
 
 
 import com.github.nomensvyat.switchbox.FieldMap;
-import com.github.nomensvyat.switchbox.fields.Field;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,10 +13,7 @@ public class JsonPropertyParser {
     private final Gson gson;
 
     public JsonPropertyParser() {
-        gson = new GsonBuilder()
-                .registerTypeAdapter(FieldMap.class, new FieldMapDeserializer())
-                .registerTypeAdapter(Field.class, new UnnamedFieldDeserializer())
-                .create();
+        gson = GsonFabric.create();
     }
 
     public FieldMap parse(File file) {

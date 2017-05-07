@@ -1,5 +1,7 @@
 package com.github.nomensvyat.switchbox;
 
+import com.github.nomensvyat.switchbox.fields.Field;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,13 @@ public class BuildConfigFieldAdder {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    public void compute(final FieldMap fieldMap) {
+        fieldContainers.forEach(fieldContainer -> {
+            List<Field> fieldList = fieldMap.get(fieldContainer.getName());
+            fieldList.forEach(fieldContainer::add);
+        });
     }
 
     public static class Builder {

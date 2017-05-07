@@ -24,7 +24,8 @@ class FieldMapDeserializer implements JsonDeserializer<FieldMap> {
 
             parsePropertyObject(propertyObject, propertyName, fieldMap, context);
         }
-        return null;
+
+        return fieldMap;
     }
 
     private void parsePropertyObject(JsonObject propertyObject,

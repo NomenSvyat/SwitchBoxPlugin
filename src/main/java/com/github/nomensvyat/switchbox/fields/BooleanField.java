@@ -16,4 +16,19 @@ public final class BooleanField implements UnnamedField {
     public String getValue() {
         return Boolean.toString(b);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BooleanField that = (BooleanField) o;
+
+        return b == that.b;
+    }
+
+    @Override
+    public int hashCode() {
+        return (b ? 1 : 0);
+    }
 }

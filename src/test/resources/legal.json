@@ -1,0 +1,15 @@
+{
+  "prop1": {
+    "default": true,
+    "alpha": false
+  },
+  "prop2": {
+    "default": "def",
+    "alpha": "alpha",
+    "debug": "non-def"
+  },
+  "prop3": {
+    "default": 1,
+    "debug": 2
+  }
+}

@@ -14,7 +14,7 @@ public final class StringField implements UnnamedField {
 
     @Override
     public String getValue() {
-        return "\" " + value + "\"";
+        return "\"" + value + "\"";
     }
 
     @Override

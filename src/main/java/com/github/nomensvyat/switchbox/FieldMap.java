@@ -22,4 +22,11 @@ public class FieldMap {
         }
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "FieldMap{" +
+                "map=" + map +
+                '}';
+    }
 }

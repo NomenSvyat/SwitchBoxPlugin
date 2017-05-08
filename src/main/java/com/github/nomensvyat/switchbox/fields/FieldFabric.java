@@ -12,4 +12,12 @@ public class FieldFabric {
     public static UnnamedField create(String value) {
         return new StringField(value);
     }
+
+    public static UnnamedField create(double value) {
+        return new DoubleField(value);
+    }
+
+    public static UnnamedField create(long value) {
+        return new LongField(value);
+    }
 }

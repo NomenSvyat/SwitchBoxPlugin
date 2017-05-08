@@ -20,7 +20,9 @@ public class UnnamedFieldDeserializerTest {
     @Language("JSON")
     private final String legalPropertyJson = "{\n" +
             "  \"String\": \"some string\",\n" +
-            "  \"boolean\": false\n" +
+            "  \"boolean\": false,\n" +
+            "  \"double\": 15.5,\n" +
+            "  \"long\": 123\n" +
             "}";
 
     @Test
@@ -32,10 +34,15 @@ public class UnnamedFieldDeserializerTest {
         List<UnnamedField> expectedEquals = new ArrayList<>();
         expectedEquals.add(FieldFabric.create("some string"));
         expectedEquals.add(FieldFabric.create(false));
+        expectedEquals.add(FieldFabric.create(15.5));
+        expectedEquals.add(FieldFabric.create(123));
 
         List<UnnamedField> expectedNotEquals = new ArrayList<>();
         expectedNotEquals.add(FieldFabric.create("some other string"));
         expectedNotEquals.add(FieldFabric.create(true));
+        expectedNotEquals.add(FieldFabric.create(true));
+        expectedNotEquals.add(FieldFabric.create(16.5));
+        expectedNotEquals.add(FieldFabric.create(15));
 
         Iterator<UnnamedField> iterator = expectedEquals.iterator();
         Iterator<UnnamedField> iteratorNotEquals = expectedNotEquals.iterator();

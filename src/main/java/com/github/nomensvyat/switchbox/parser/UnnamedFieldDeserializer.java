@@ -23,9 +23,12 @@ class UnnamedFieldDeserializer implements JsonDeserializer<UnnamedField> {
         } else if (jsonPrimitive.isString()) {
             result = FieldFabric.create(jsonPrimitive.getAsString());
         } else if (jsonPrimitive.isNumber()) {
-            // TODO: 07.05.2017 Find out how to figure out which type field is
-            double asDouble = jsonPrimitive.getAsDouble();
-            long asLong = jsonPrimitive.getAsLong();
+            String numberString = jsonPrimitive.getAsString();
+            if (numberString.contains(".")) {
+                result = FieldFabric.create(jsonPrimitive.getAsDouble());
+            } else {
+                result = FieldFabric.create(jsonPrimitive.getAsLong());
+            }
         }
 
 

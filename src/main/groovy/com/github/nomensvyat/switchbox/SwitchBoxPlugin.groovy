@@ -3,9 +3,11 @@ package com.github.nomensvyat.switchbox
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
-import com.github.nomensvyat.switchbox.parser.JsonPropertyParser
+import com.github.nomensvyat.switchbox.parser.FieldMapLoader
+import org.gradle.api.Nullable
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.StopExecutionException
@@ -28,22 +30,34 @@ class SwitchBoxPlugin implements Plugin<Project> {
     }
 
     def doAfterEvaluate(Project project) {
-        loadFields(project)
-        def syncTask = project.task("syncSwitchBox") {
-            loadFields(project)
-        }
+        def syncTask = project.task("syncSwitchBox")
+
+        syncTask.doFirst { loadFields(project, it) }
+
         if (switchBoxExtension.syncOnBuild) {
             project.tasks.all { task ->
                 if (task.name.contains("BuildConfig")) {
                     task.dependsOn syncTask
                 }
             }
+        } else {
+            //done only on gradle sync
+            loadFields(project, null)
         }
     }
 
-    private void loadFields(Project project) {
-        def appExtension = project.extensions.getByType(AppExtension)
+    private void loadFields(Project project, @Nullable Task task) {
+        def file = getFile(project, switchBoxExtension.filePath)
 
+        task?.setDidWork(false)
+        if (!FieldMapLoader.needToLoad(file)) {
+            return
+        }
+        task?.setDidWork(true)
+
+        def fieldMap = FieldMapLoader.load(file)
+
+        def appExtension = project.extensions.getByType(AppExtension)
         def builder = BuildConfigFieldAdder.builder()
         builder.addFieldContainer(FieldContainerFabric.createDefault(appExtension.defaultConfig))
         appExtension.buildTypes.all {
@@ -54,10 +68,6 @@ class SwitchBoxPlugin implements Plugin<Project> {
         }
 
         def buildConfigFieldAdder = builder.build()
-
-        def file = getFile(project, switchBoxExtension.filePath)
-
-        def fieldMap = new JsonPropertyParser().parse(file)
 
         buildConfigFieldAdder.compute(fieldMap)
     }

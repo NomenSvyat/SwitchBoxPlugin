@@ -12,6 +12,7 @@ import org.gradle.api.tasks.StopExecutionException
 
 class SwitchBoxPlugin implements Plugin<Project> {
     final Logger log = Logging.getLogger SwitchBoxPlugin
+    private SwitchBoxExtension switchBoxExtension
 
     @Override
     void apply(Project project) {
@@ -19,7 +20,7 @@ class SwitchBoxPlugin implements Plugin<Project> {
             throw new StopExecutionException("Must be applied after 'android' or 'android-library' plugin.")
         }
 
-        project.extensions.create("switchBox", SwitchBoxExtension)
+        switchBoxExtension = project.extensions.create("switchBox", SwitchBoxExtension)
 
         project.afterEvaluate {
             doAfterEvaluate(project)
@@ -27,6 +28,20 @@ class SwitchBoxPlugin implements Plugin<Project> {
     }
 
     def doAfterEvaluate(Project project) {
+        loadFields(project)
+        def syncTask = project.task("syncSwitchBox") {
+            loadFields(project)
+        }
+        if (switchBoxExtension.syncOnBuild) {
+            project.tasks.all { task ->
+                if (task.name.contains("BuildConfig")) {
+                    task.dependsOn syncTask
+                }
+            }
+        }
+    }
+
+    private void loadFields(Project project) {
         def appExtension = project.extensions.getByType(AppExtension)
 
         def builder = BuildConfigFieldAdder.builder()
@@ -40,9 +55,7 @@ class SwitchBoxPlugin implements Plugin<Project> {
 
         def buildConfigFieldAdder = builder.build()
 
-        def switchBoxExtension = project.extensions.getByType(SwitchBoxExtension)
         def file = getFile(project, switchBoxExtension.filePath)
-
 
         def fieldMap = new JsonPropertyParser().parse(file)
 
@@ -53,7 +66,7 @@ class SwitchBoxPlugin implements Plugin<Project> {
         try {
             return project.file(filePath)
         } catch (Exception e) {
-            throw new Exception("File not found")
+            throw new Exception("File not found", e)
         }
     }
 

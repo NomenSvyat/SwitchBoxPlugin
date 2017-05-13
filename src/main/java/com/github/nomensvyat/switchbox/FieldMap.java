@@ -10,7 +10,7 @@ public class FieldMap {
     public FieldMap() {
     }
 
-    public void add(String fieldContainerName, Field field) {
+    public void put(String fieldContainerName, Field field) {
         List<Field> fields = map.computeIfAbsent(fieldContainerName, k -> new ArrayList<>());
         fields.add(field);
     }
@@ -20,7 +20,7 @@ public class FieldMap {
         if (result == null) {
             result = Collections.emptyList();
         }
-        return result;
+        return Collections.unmodifiableList(result);
     }
 
     @Override

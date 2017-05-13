@@ -41,7 +41,7 @@ class FieldMapDeserializer implements JsonDeserializer<FieldMap> {
             UnnamedField unnamedField = context.deserialize(value, UnnamedField.class);
             Field field = new NamedField(unnamedField, propertyName);
 
-            fieldMap.add(fieldContainerName, field);
+            fieldMap.put(fieldContainerName, field);
         }
     }
 }

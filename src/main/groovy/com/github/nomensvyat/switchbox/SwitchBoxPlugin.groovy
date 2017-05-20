@@ -1,13 +1,8 @@
 package com.github.nomensvyat.switchbox
 
-import com.android.build.gradle.AppExtension
-import com.android.build.gradle.AppPlugin
-import com.android.build.gradle.LibraryPlugin
+import com.android.build.gradle.*
 import com.github.nomensvyat.switchbox.parser.FieldMapLoader
-import org.gradle.api.Nullable
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-import org.gradle.api.Task
+import org.gradle.api.*
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.StopExecutionException
@@ -57,19 +52,32 @@ class SwitchBoxPlugin implements Plugin<Project> {
 
         def fieldMap = FieldMapLoader.load(file)
 
-        def appExtension = project.extensions.getByType(AppExtension)
+        def androidExtension = getAndroidExtension(project)
+
         def builder = BuildConfigFieldAdder.builder()
-        builder.addFieldContainer(FieldContainerFabric.createDefault(appExtension.defaultConfig))
-        appExtension.buildTypes.all {
+        builder.addFieldContainer(FieldContainerFabric.createDefault(androidExtension.defaultConfig))
+        androidExtension.buildTypes.all {
             builder.addFieldContainer(FieldContainerFabric.create(it))
         }
-        appExtension.productFlavors.all {
+        androidExtension.productFlavors.all {
             builder.addFieldContainer(FieldContainerFabric.create(it))
         }
 
         def buildConfigFieldAdder = builder.build()
 
         buildConfigFieldAdder.compute(fieldMap)
+    }
+
+    BaseExtension getAndroidExtension(Project project) {
+        project.dependencies.
+                def androidExtension
+        try {
+            androidExtension = project.extensions.getByType(AppExtension)
+        } catch (UnknownDomainObjectException e) {
+            androidExtension = project.extensions.getByType(LibraryExtension)
+        }
+
+        return androidExtension
     }
 
     static def getFile(Project project, String filePath) {

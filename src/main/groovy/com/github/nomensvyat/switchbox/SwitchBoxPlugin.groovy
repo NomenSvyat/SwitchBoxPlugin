@@ -69,8 +69,7 @@ class SwitchBoxPlugin implements Plugin<Project> {
     }
 
     BaseExtension getAndroidExtension(Project project) {
-        project.dependencies.
-                def androidExtension
+        def androidExtension
         try {
             androidExtension = project.extensions.getByType(AppExtension)
         } catch (UnknownDomainObjectException e) {

@@ -30,6 +30,7 @@ Now create a file with JSON containing your fields like this:
 }
 ```
 
+### Apply plugin
 Build script snippet for use in all Gradle versions:
 ```
 buildscript {

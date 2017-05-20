@@ -18,7 +18,7 @@ buildscript {
 sourceCompatibility = 1.8
 
 group 'com.github.nomensvyat'
-version '0.1.0'
+version '0.1.1'
 
 pluginBundle {
     website = 'https://github.com/NomenSvyat/SwitchBoxPlugin'

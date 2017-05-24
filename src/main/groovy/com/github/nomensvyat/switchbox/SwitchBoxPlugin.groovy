@@ -64,7 +64,7 @@ class SwitchBoxPlugin implements Plugin<Project> {
         def builder = BuildConfigFieldAdder.builder()
         builder.addFieldContainer(FieldContainerFabric.createDefault(androidExtension.defaultConfig))
         androidExtension.buildTypes.all {
-            builder.addFieldContainer(FieldContainerFabric.create(it.getBuildConfigFields()))
+            builder.addFieldContainer(FieldContainerFabric.create(it))
         }
         androidExtension.productFlavors.all {
             builder.addFieldContainer(FieldContainerFabric.create(it))

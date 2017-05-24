@@ -2,6 +2,7 @@ package com.github.nomensvyat.switchbox.parser;
 
 
 import com.github.nomensvyat.switchbox.FieldMap;
+import com.github.nomensvyat.switchbox.util.JsonMinify;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
@@ -9,17 +10,20 @@ import org.gradle.api.tasks.StopExecutionException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FieldMapLoader {
 
     private final Gson gson;
     private FieldMap cachedFieldMap;
     private long cacheTimestamp;
+    private final JsonMinify jsonMinify;
 
     private FieldMapLoader() {
         gson = GsonFabric.create();
+        jsonMinify = new JsonMinify();
     }
 
     private static FieldMapLoader getInstance() {
@@ -40,9 +44,11 @@ public class FieldMapLoader {
 
     private FieldMap loadInternal(File file) {
         checkFile(file);
+        try {
+            byte[] readAllBytes = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
+            String jsonString = new String(readAllBytes);
 
-        try (FileReader fileReader = new FileReader(file)) {
-            cachedFieldMap = gson.fromJson(fileReader, FieldMap.class);
+            cachedFieldMap = gson.fromJson(jsonMinify.minify(jsonString), FieldMap.class);
         } catch (FileNotFoundException e) {
             throw new IllegalStateException("File not found", e);
         } catch (IOException e) {

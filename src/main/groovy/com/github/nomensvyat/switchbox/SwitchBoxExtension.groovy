@@ -9,5 +9,5 @@ class SwitchBoxExtension {
     /**
      * Set to true would reload build config fields from file
      */
-    boolean syncOnBuild = false
+    boolean syncOnBuild = true
 }

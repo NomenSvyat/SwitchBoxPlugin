@@ -16,10 +16,17 @@ public class BuildConfigFieldAdder {
         return new Builder();
     }
 
-    public void compute(final FieldMap fieldMap) {
+    public void add(final FieldMap fieldMap) {
         fieldContainers.forEach(fieldContainer -> {
             List<Field> fieldList = fieldMap.get(fieldContainer.getName());
             fieldList.forEach(fieldContainer::add);
+        });
+    }
+
+    public void remove(final FieldMap fieldMap) {
+        fieldContainers.forEach(fieldContainer -> {
+            List<Field> fieldList = fieldMap.get(fieldContainer.getName());
+            fieldList.forEach(fieldContainer::remove);
         });
     }
 

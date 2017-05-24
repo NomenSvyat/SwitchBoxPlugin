@@ -17,9 +17,9 @@ import java.nio.file.Paths;
 public class FieldMapLoader {
 
     private final Gson gson;
+    private final JsonMinify jsonMinify;
     private FieldMap cachedFieldMap;
     private long cacheTimestamp;
-    private final JsonMinify jsonMinify;
 
     private FieldMapLoader() {
         gson = GsonFabric.create();
@@ -36,6 +36,10 @@ public class FieldMapLoader {
 
     public static boolean needToLoad(File file) {
         return getInstance().needToLoadInternal(file);
+    }
+
+    public static FieldMap getCached() {
+        return getInstance().cachedFieldMap;
     }
 
     private boolean needToLoadInternal(File file) {

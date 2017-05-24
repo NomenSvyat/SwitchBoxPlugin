@@ -14,6 +14,11 @@ class FieldContainerFabric {
             }
 
             @Override
+            public void remove(Field field) {
+                productFlavor.getBuildConfigFields().remove(field.getName());
+            }
+
+            @Override
             public String getName() {
                 return productFlavor.getName();
             }
@@ -28,6 +33,11 @@ class FieldContainerFabric {
             }
 
             @Override
+            public void remove(Field field) {
+                productFlavor.getBuildConfigFields().remove(field.getName());
+            }
+
+            @Override
             public String getName() {
                 return "default";
             }
@@ -39,6 +49,11 @@ class FieldContainerFabric {
             @Override
             public void add(Field field) {
                 buildType.buildConfigField(field.getType(), field.getName(), field.getValue());
+            }
+
+            @Override
+            public void remove(Field field) {
+                buildType.getBuildConfigFields().remove(field.getName());
             }
 
             @Override

@@ -50,22 +50,28 @@ class SwitchBoxPlugin implements Plugin<Project> {
         }
         task?.setDidWork(true)
 
+        BuildConfigFieldAdder buildConfigFieldAdder = createBuildConfigAdder(getAndroidExtension(project))
+
+        FieldMap cachedFieldMap = FieldMapLoader.getCached()
+        buildConfigFieldAdder.remove(cachedFieldMap)
+
         def fieldMap = FieldMapLoader.load(file)
 
-        def androidExtension = getAndroidExtension(project)
+        buildConfigFieldAdder.add(fieldMap)
+    }
 
+    private BuildConfigFieldAdder createBuildConfigAdder(BaseExtension androidExtension) {
         def builder = BuildConfigFieldAdder.builder()
         builder.addFieldContainer(FieldContainerFabric.createDefault(androidExtension.defaultConfig))
         androidExtension.buildTypes.all {
-            builder.addFieldContainer(FieldContainerFabric.create(it))
+            builder.addFieldContainer(FieldContainerFabric.create(it.getBuildConfigFields()))
         }
         androidExtension.productFlavors.all {
             builder.addFieldContainer(FieldContainerFabric.create(it))
         }
 
         def buildConfigFieldAdder = builder.build()
-
-        buildConfigFieldAdder.compute(fieldMap)
+        buildConfigFieldAdder
     }
 
     BaseExtension getAndroidExtension(Project project) {

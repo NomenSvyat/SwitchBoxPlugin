@@ -44,16 +44,20 @@ class SwitchBoxPlugin implements Plugin<Project> {
     private void loadFields(Project project, @Nullable Task task) {
         def file = getFile(project, switchBoxExtension.filePath)
 
-        task?.setDidWork(false)
-        if (!FieldMapLoader.needToLoad(file)) {
-            return
-        }
-        task?.setDidWork(true)
+        log.info("Starting SwitchBox")
+
+        //Remove up-to-date check for now
+//        task?.setDidWork(false)
+//        if (!FieldMapLoader.needToLoad(file)) {
+//            log.info("SwitchBox UP-TO-DATE!!!")
+//            return
+//        }
+//        task?.setDidWork(true)
 
         BuildConfigFieldAdder buildConfigFieldAdder = createBuildConfigAdder(getAndroidExtension(project))
 
-        FieldMap cachedFieldMap = FieldMapLoader.getCached()
-        if (cachedFieldMap == null) {
+        def cachedFieldMap = FieldMapLoader.getCached()
+        if (cachedFieldMap != null) {
             buildConfigFieldAdder.remove(cachedFieldMap)
         }
 

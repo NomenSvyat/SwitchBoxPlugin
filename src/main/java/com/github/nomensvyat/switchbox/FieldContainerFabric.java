@@ -2,7 +2,10 @@ package com.github.nomensvyat.switchbox;
 
 import com.android.build.gradle.internal.dsl.BuildType;
 import com.android.build.gradle.internal.dsl.ProductFlavor;
+import com.android.builder.model.ClassField;
 import com.github.nomensvyat.switchbox.fields.Field;
+
+import java.util.Map;
 
 class FieldContainerFabric {
 
@@ -15,7 +18,10 @@ class FieldContainerFabric {
 
             @Override
             public void remove(Field field) {
-                productFlavor.getBuildConfigFields().remove(field.getName());
+                Map<String, ClassField> buildConfigFields = productFlavor.getBuildConfigFields();
+                if (buildConfigFields != null) {
+                    buildConfigFields.remove(field.getName());
+                }
             }
 
             @Override
@@ -34,7 +40,10 @@ class FieldContainerFabric {
 
             @Override
             public void remove(Field field) {
-                productFlavor.getBuildConfigFields().remove(field.getName());
+                Map<String, ClassField> buildConfigFields = productFlavor.getBuildConfigFields();
+                if (buildConfigFields != null) {
+                    buildConfigFields.remove(field.getName());
+                }
             }
 
             @Override
@@ -53,7 +62,10 @@ class FieldContainerFabric {
 
             @Override
             public void remove(Field field) {
-                buildType.getBuildConfigFields().remove(field.getName());
+                Map<String, ClassField> buildConfigFields = buildType.getBuildConfigFields();
+                if (buildConfigFields != null) {
+                    buildConfigFields.remove(field.getName());
+                }
             }
 
             @Override

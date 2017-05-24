@@ -3,10 +3,14 @@ package com.github.nomensvyat.switchbox.parser;
 
 import com.github.nomensvyat.switchbox.FieldMap;
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
+
+import org.gradle.api.tasks.StopExecutionException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 public class FieldMapLoader {
 
@@ -37,14 +41,19 @@ public class FieldMapLoader {
     private FieldMap loadInternal(File file) {
         checkFile(file);
 
-        FileReader fileReader;
-        try {
-            fileReader = new FileReader(file);
+        try (FileReader fileReader = new FileReader(file)) {
+            cachedFieldMap = gson.fromJson(fileReader, FieldMap.class);
         } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("File not found", e);
+            throw new IllegalStateException("File not found", e);
+        } catch (IOException e) {
+            throw new IllegalStateException("Can't read file", e);
+        } catch (JsonParseException e) {
+            StopExecutionException stopExecutionException = new StopExecutionException(
+                    "Can't parse fields from file: " + file.getAbsolutePath());
+            stopExecutionException.initCause(e);
+            throw stopExecutionException;
         }
 
-        cachedFieldMap = gson.fromJson(fileReader, FieldMap.class);
         cacheTimestamp = file.lastModified();
 
         return cachedFieldMap;

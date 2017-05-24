@@ -53,7 +53,9 @@ class SwitchBoxPlugin implements Plugin<Project> {
         BuildConfigFieldAdder buildConfigFieldAdder = createBuildConfigAdder(getAndroidExtension(project))
 
         FieldMap cachedFieldMap = FieldMapLoader.getCached()
-        buildConfigFieldAdder.remove(cachedFieldMap)
+        if (cachedFieldMap == null) {
+            buildConfigFieldAdder.remove(cachedFieldMap)
+        }
 
         def fieldMap = FieldMapLoader.load(file)
 

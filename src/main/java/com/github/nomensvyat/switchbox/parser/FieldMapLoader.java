@@ -6,6 +6,7 @@ import com.github.nomensvyat.switchbox.util.JsonMinify;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
+import org.gradle.api.Nullable;
 import org.gradle.api.tasks.StopExecutionException;
 
 import java.io.File;
@@ -38,12 +39,13 @@ public class FieldMapLoader {
         return getInstance().needToLoadInternal(file);
     }
 
+    @Nullable
     public static FieldMap getCached() {
         return getInstance().cachedFieldMap;
     }
 
     private boolean needToLoadInternal(File file) {
-        return !(cacheTimestamp == file.lastModified() && cachedFieldMap != null);
+        return cachedFieldMap == null || cacheTimestamp != file.lastModified();
     }
 
     private FieldMap loadInternal(File file) {

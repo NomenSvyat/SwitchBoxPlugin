@@ -2,11 +2,12 @@
 
 If you add a lot of fields to BuildConfig class via gradle this plugin is for you.
 
-Just add to your gradle script this block of code:
+Just add to your gradle build script this block of code:
 
 ```
 switchBox {
     filePath = "path-to-your-file"
+    [syncOnBuild = false (default is true)]
 }
 ```
 
@@ -14,16 +15,16 @@ Now create a file with JSON containing your fields like this:
 
 ```
 {
-  "prop1": {
+  "PROP_1": {
     "default": true,
     "alpha": false
   },
-  "prop2": {
+  "PROP_2": {
     "default": "def",
     "alpha": "alpha",
     "debug": "non-def"
   },
-  "prop3": {
+  "PROP_3": {
     "default": 1,
     "debug": 2
   }
@@ -31,6 +32,8 @@ Now create a file with JSON containing your fields like this:
 ```
 
 ### Apply plugin
+You can look for latest plugin version [here](https://plugins.gradle.org/plugin/com.github.nomensvyat.switchbox)
+
 Build script snippet for use in all Gradle versions:
 ```
 buildscript {
@@ -40,7 +43,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.com.github.nomensvyat:SwitchBoxPlugin:0.1.0"
+    classpath "gradle.plugin.com.github.nomensvyat:SwitchBoxPlugin:$latestVersion"
   }
 }
 
@@ -49,6 +52,6 @@ apply plugin: "com.github.nomensvyat.switchbox"
 Build script snippet for new, incubating, plugin mechanism introduced in Gradle 2.1:
 ```
 plugins {
-  id "com.github.nomensvyat.switchbox" version "0.1.0"
+  id "com.github.nomensvyat.switchbox" version latestVersion
 }
 ```

@@ -31,6 +31,10 @@ Now create a file with JSON containing your fields like this:
 }
 ```
 
+### Versioning
+XX.YY.ZZ
+First 2 numbers (XX and YY) in version indicate support of Android Gradle plugin version.
+
 ### Apply plugin
 You can look for latest plugin version [here](https://plugins.gradle.org/plugin/com.github.nomensvyat.switchbox)
 

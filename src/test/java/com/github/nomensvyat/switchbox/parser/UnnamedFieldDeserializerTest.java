@@ -5,6 +5,7 @@ import com.github.nomensvyat.switchbox.fields.UnnamedField;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import org.intellij.lang.annotations.Language;
 import org.junit.Test;
 
@@ -54,7 +55,9 @@ public class UnnamedFieldDeserializerTest {
 
             assertEquals("Parsed wrong field", iterator.next(), unnamedField);
 
-            assertNotEquals("Parsed wrong field. Must not be equal", iteratorNotEquals.next(), unnamedField);
+            assertNotEquals("Parsed wrong field. Must not be equal",
+                            iteratorNotEquals.next(),
+                            unnamedField);
         }
     }
 

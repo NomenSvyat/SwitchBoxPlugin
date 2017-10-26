@@ -2,9 +2,16 @@ package com.github.nomensvyat.switchbox;
 
 import com.github.nomensvyat.switchbox.fields.Field;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FieldMap {
+    /**
+     * FieldContainer name to field map
+     */
     private final Map<String, List<Field>> map = new HashMap<>();
 
     public FieldMap() {

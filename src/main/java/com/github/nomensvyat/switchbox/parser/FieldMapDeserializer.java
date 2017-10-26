@@ -4,7 +4,11 @@ import com.github.nomensvyat.switchbox.FieldMap;
 import com.github.nomensvyat.switchbox.fields.Field;
 import com.github.nomensvyat.switchbox.fields.NamedField;
 import com.github.nomensvyat.switchbox.fields.UnnamedField;
-import com.google.gson.*;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -12,7 +16,9 @@ import java.util.Set;
 
 class FieldMapDeserializer implements JsonDeserializer<FieldMap> {
     @Override
-    public FieldMap deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public FieldMap deserialize(JsonElement json,
+                                Type typeOfT,
+                                JsonDeserializationContext context) throws JsonParseException {
         JsonObject rootObject = json.getAsJsonObject();
 
         Set<Map.Entry<String, JsonElement>> entrySet = rootObject.entrySet();

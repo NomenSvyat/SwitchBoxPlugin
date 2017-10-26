@@ -1,12 +1,10 @@
 package com.github.nomensvyat.switchbox.parser;
 
-
 import com.github.nomensvyat.switchbox.FieldMap;
 import com.github.nomensvyat.switchbox.util.JsonMinify;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
-import org.gradle.api.Nullable;
 import org.gradle.api.tasks.StopExecutionException;
 
 import java.io.File;
@@ -14,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import javax.annotation.Nullable;
 
 public class FieldMapLoader {
 

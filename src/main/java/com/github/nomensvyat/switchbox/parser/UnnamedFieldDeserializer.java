@@ -2,14 +2,20 @@ package com.github.nomensvyat.switchbox.parser;
 
 import com.github.nomensvyat.switchbox.fields.FieldFabric;
 import com.github.nomensvyat.switchbox.fields.UnnamedField;
-import com.google.gson.*;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
 
 import java.lang.reflect.Type;
 
 class UnnamedFieldDeserializer implements JsonDeserializer<UnnamedField> {
 
     @Override
-    public UnnamedField deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public UnnamedField deserialize(JsonElement json,
+                                    Type typeOfT,
+                                    JsonDeserializationContext context) throws JsonParseException {
         if (!json.isJsonPrimitive()) {
             throw new JsonParseException("Is not a primitive: " + json.toString());
         }
@@ -30,7 +36,6 @@ class UnnamedFieldDeserializer implements JsonDeserializer<UnnamedField> {
                 result = FieldFabric.create(jsonPrimitive.getAsLong());
             }
         }
-
 
         if (result == null) {
             throw new JsonParseException("JsonElement is of unsupported type");

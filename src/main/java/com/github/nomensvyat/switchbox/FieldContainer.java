@@ -8,4 +8,6 @@ public interface FieldContainer {
     void remove(Field field);
 
     String getName();
+
+    String getGroup();
 }
